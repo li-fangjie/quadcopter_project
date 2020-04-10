@@ -9,6 +9,6 @@ with their own components:
 * User Input
 * Radio Communication
 * Flight Control System
-..* IMU sensory input
-..* Output control system
-..* Motor output
+  * IMU sensory input
+  * Output control system
+  * Motor output
