@@ -41,11 +41,14 @@ class Rx
         uint8_t addr[6];
         uint8_t targ_addr[6];
         uint8_t ack;
+        // float f_buf[4]; // A lazy way to load 
+
     public:
         Rx(RF24 * radio, uint8_t is_ack=1);
         int setup();
         int update_ctrl();
         uint8_t * get_buf();
+        // float * get_f_buf();
 };
 
 #endif

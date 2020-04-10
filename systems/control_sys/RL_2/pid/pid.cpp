@@ -1,38 +1,22 @@
 #include "pid.h"
 #include "Arduino.h"
 
-
-void PID_CTRL::setup(float* n_input, float* n_sp, float n_kP, float n_kI, float n_kD, float n_KF)
+void PID_CTRL::setup(float* n_input, float* n_sp, const float n_k[3])
 {
+    set_output_range(-255, 255);
     input = n_input;
     sp = n_sp;
-    kP = n_kP;
-    kI = n_kI;
-    kD = n_kD;
-    kF = n_KF;
+    k = n_k;
     output = NULL;
 }
 
-void PID_CTRL::setup(float* n_input, float* n_sp, float k[4])
+void PID_CTRL::setup(float* n_input, float* n_output, float* n_sp, const float n_k[3])
 {
-  input = n_input;
-  sp = n_sp;
-  kP = k[0];
-  kI = k[1];
-  kD = k[2];
-  kF = k[3];
-  output = NULL;
-}
-
-void PID_CTRL::setup(float* n_input, float* n_output, float* n_sp, float k[4])
-{
-  input = n_input;
-  sp = n_sp;
-  kP = k[0];
-  kI = k[1];
-  kD = k[2];
-  kF = k[3];
-  p_output = n_output;
+    set_output_range(-255, 255);
+    input = n_input;
+    sp = n_sp;
+    k = n_k;
+    p_output = n_output;
 }
 
 void PID_CTRL::set_resolution(float reso)
@@ -74,23 +58,18 @@ void PID_CTRL::update()
         error = 0;
         i_error = 0;
     }
-    float p_term = kP * error;
-    float i_term = kI * kP * i_error;
-    float d_term = kD * kP * (error - prev_error);
-    float f_term = 0;
-    if(has_up_stream) f_term = kF * (*sp);
-    output = p_term + i_term + d_term + f_term;
+    float p_term = k[0] * error;
+    float i_term = k[0] * k[1] * i_error;
+    float d_term = k[0] * k[1] * (error - prev_error);
+    output = p_term + i_term + d_term;
     if(p_output != NULL) *p_output = output;
     post_process();
     prev_error = error;
 }
 
-void PID_CTRL::set_coef(float k_p, float k_i, float k_d, float k_f)
+void PID_CTRL::set_coef(const float n_k[3])
 {
-    kP = k_p;
-    kI = k_i;
-    kD = k_d;
-    kF = k_f;
+    k = n_k;
 }
 
 float* PID_CTRL::get_p_output()
@@ -110,20 +89,15 @@ float PID_CTRL::get_output()
 
 float PID_CTRL::get_kP()
 {
-    return kP;
+    return k[0];
 }
 
 float PID_CTRL::get_kI()
 {
-    return kI;
+    return k[1];
 }
 
 float PID_CTRL::get_kD()
 {
-    return kD;
-}
-
-float PID_CTRL::get_kF()
-{
-    return kF;
+    return k[2];
 }

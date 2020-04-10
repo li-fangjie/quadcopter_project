@@ -102,12 +102,26 @@ int Rx::update_ctrl()
         radio -> read(buf, BUF_LEN);
         cur_pack_id = buf[1];
         radio -> writeAckPayload(1, &cur_pack_id, sizeof(cur_pack_id));
+        /*
+        for(int i=0; i<BUF_LEN-2; ++i) {
+            f_buf[i] = buf[i+2]; // Load buffer to a float buffer, to be used by pid control..
+        }
+        */
         return 0;
     }
     return 1;
 }
 
+// NOTE: This returns the pointer to BUF_LEN buffer.
 uint8_t * Rx::get_buf()
 {
     return buf;
 }
+
+/*
+// NOTE: This returns the pointer to a LENGTH 4 float buffer...
+float * Rx::get_f_buf()
+{
+    return f_buf;
+}
+*/

@@ -25,9 +25,12 @@ class IMU
         VectorInt16 ac_real; // accel relative to self, gravity removed
         VectorInt16 ac_world; // accel relative to intial world frame, gravity removed
         VectorFloat ac_gravity; // accel due to gravity
+        
         float euler[3]; // [psi, theta, phi]
         float ypr[3]; // [yaw, pitch roll]
         float ypr_deg[3];
+        
+        float aw_z; // z acceleration for pid...
         MPU6050 mpu;
 
     public:
@@ -145,6 +148,7 @@ class IMU
             mpu.dmpGetAccel(&ac_raw, fifo_buf);
             mpu.dmpGetLinearAccel(&ac_real, &ac_raw, & ac_gravity);
             mpu.dmpGetLinearAccelInWorld(&ac_world, &ac_real, &q);
+            aw_z = ac_world.z;
         }
 
         void update_val()
@@ -186,6 +190,11 @@ class IMU
         VectorInt16 * get_p_aa_raw()
         {
             return & ac_raw;
+        }
+
+        float * get_awz()
+        {
+            return & aw_z;
         }
 
         int get_dmp_ready()

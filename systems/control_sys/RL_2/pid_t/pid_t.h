@@ -1,15 +1,16 @@
 #ifndef __PID_H__
 #define __PID_H__
 
+template <class T_I, class T_O, class T_S>
 class PID_CTRL
 {
     private:
-        float * input;
-        float * p_output;
-        float output;
+        T_I * input;
+        T_O * p_output;
+        T_O output;
         // float kP, kI, kD, kF;
         const float * k; // k[3] = {kP, kI, kD}
-        float * sp;
+        T_S * sp;
         float resolution;
         float out_range[2];
         
@@ -19,9 +20,9 @@ class PID_CTRL
         bool state;
 
     public:
-        void setup(float* n_input, float* n_sp, const float n_k[3]);
+        void setup(T_I* n_input, T_S* n_sp, const float n_k[3]);
 
-        void setup(float* n_input, float* n_output, float* n_sp, const float n_k[3]);
+        void setup(T_I* n_input, T_O* n_output, T_S* n_sp, const float n_k[3]);
 
         void set_resolution(float reso);
 
@@ -37,11 +38,11 @@ class PID_CTRL
 
         void set_coef(const float n_k[3]);
 
-        float* get_p_output();
+        T_O* get_p_output();
 
-        float* get_ext_p_output();
+        T_O* get_ext_p_output();
 
-        float get_output();
+        T_O get_output();
 
         float get_kP();
 
