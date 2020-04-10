@@ -1,4 +1,4 @@
-#Control System
+# Control System
 This section houses thecontrol system of the quadcopter, which
 encompasses the software necessary for the flight control system and radio control of the
 quadcopter.
