@@ -14,9 +14,9 @@ void setup()
 {
     Serial.begin(115200);
     if(n_imu.setup(2, dmp_ready))
-        Serial.println("MPU6050 setup failed!");
+        Serial.println(F("MPU6050 setup failed!"));
     else{
-        Serial.println("MPU6050 and dmp connected!");
+        Serial.println(F("MPU6050 and dmp connected!"));
     }
     ypr = n_imu.get_ypr_deg();
 }
@@ -27,17 +27,17 @@ void loop()
     if(n_imu.get_dmp_ready()){
         int r = n_imu.read_raw();
         if(r!=0){
-            Serial.println("Erro!");
+            Serial.println(F("Error!"));
         }
         n_imu.update_val();
         if(millis()-timer >= 1){
             timer = millis();
-            Serial.print("The ypr are: ");
-            Serial.print("Yaw: ");
+            Serial.print(F("The ypr are: "));
+            Serial.print(F("Yaw: "));
             Serial.print(ypr[0]);
-            Serial.print(" Pitch: ");
+            Serial.print(F(" Pitch: "));
             Serial.print(ypr[1]);
-            Serial.print(" Roll: ");
+            Serial.print(F(" Roll: "));
             Serial.println(ypr[2]);
         }
     }

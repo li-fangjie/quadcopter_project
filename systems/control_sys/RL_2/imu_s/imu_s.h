@@ -12,7 +12,7 @@ Currently only acts as a interface between FCS and those libraries.
 class IMU
 {
     private:
-        int dmp_data_ready;
+        uint8_t dmp_data_ready;
 
         uint8_t int_status; // interrupt status
         uint16_t packet_size; // Size of each packet
@@ -30,7 +30,6 @@ class IMU
         float ypr[3]; // [yaw, pitch roll]
         float ypr_deg[3];
         
-        float aw_z; // z acceleration for pid...
         MPU6050 mpu;
 
     public:
@@ -148,7 +147,6 @@ class IMU
             mpu.dmpGetAccel(&ac_raw, fifo_buf);
             mpu.dmpGetLinearAccel(&ac_real, &ac_raw, & ac_gravity);
             mpu.dmpGetLinearAccelInWorld(&ac_world, &ac_real, &q);
-            aw_z = ac_world.z;
         }
 
         void update_val()
@@ -191,13 +189,8 @@ class IMU
         {
             return & ac_raw;
         }
-
-        float * get_awz()
-        {
-            return & aw_z;
-        }
-
-        int get_dmp_ready()
+        
+        uint8_t get_dmp_ready()
         {
             return dmp_data_ready;
         }
