@@ -131,6 +131,8 @@ void setup() {
   Serial.println(F("Alive"));
   MPU6050Connect();
   pinMode(LED_PIN, OUTPUT); // LED Blinks when you are recieving FIFO packets from your MPU6050
+  mpu.CalibrateAccel(10);
+  mpu.CalibrateGyro(10);
 
 }
 

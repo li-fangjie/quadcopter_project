@@ -2,7 +2,7 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 RF24 radio(7, 8); // CE, CSN         
-long cur = 0;
+long cur = 1;
 const byte address[][6] = {"1Node", "2Node"};     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
 int ind[][2] = {{0, 1}, {1, 0}};
 void setup() {
